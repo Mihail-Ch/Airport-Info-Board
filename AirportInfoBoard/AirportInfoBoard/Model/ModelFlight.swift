@@ -10,7 +10,6 @@ struct Schedule: Codable {
     let schedule: [Thread]
 }
 
-
 struct Thread: Codable {
     let thread: Flight
     let departure: String?
@@ -18,8 +17,8 @@ struct Thread: Codable {
 }
 
 struct Flight: Codable {
-    let number: String
-    let title: String
-    let vehicle: String
+    let number: String?
+    let title: String?
+    let vehicle: String?
 }
 

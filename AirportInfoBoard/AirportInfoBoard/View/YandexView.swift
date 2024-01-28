@@ -23,6 +23,7 @@ class YandexView: UIView {
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "http://rasp.yandex.ru/"
         label.textAlignment = .center
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -43,10 +44,20 @@ class YandexView: UIView {
         stackView.addArrangedSubview(yandexText)
         stackView.addArrangedSubview(yandexURL)
         constraintsConfigure()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openLink))
+        yandexURL.addGestureRecognizer(tapGesture)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func openLink() {
+        if let url = URL(string: "https://rasp.yandex.ru") {
+            UIApplication.shared.open(url)
+        }
     }
     
     private func constraintsConfigure() {

@@ -57,11 +57,17 @@ class FlightTableViewCell: UITableViewCell {
         createUI()
     }
     
-    private func currentTime() -> String {
-        let currentTime = Date()
+    private func currentTime(dateString: String) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = .short
-        return dateFormatter.string(from: currentTime)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "HH:mm"
+            let timeString = dateFormatter.string(from: date)
+            return timeString
+        } else {
+            return "Error: Дата пришла ПоЛоМоНоЙ 🤪"
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -96,12 +102,14 @@ class FlightTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(flightNumber: String, flightName: String, modelAirplane: String, timeFlight: String) {
-        numberFlight.text = flightNumber
-        nameFlight.text = flightName
-        modelPlain.text = modelAirplane
-        self.timeFlight.text = currentTime()
-        
+    func configure(flightNumber: String?, flightName: String?, modelAirplane: String?, timeFlight: String?) {
+        numberFlight.text = flightNumber ?? ""
+        nameFlight.text = flightName ?? ""
+        modelPlain.text = modelAirplane ?? ""
+        if let timeFlight = timeFlight {
+           let currentTime = currentTime(dateString: timeFlight)
+            self.timeFlight.text = currentTime
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

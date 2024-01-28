@@ -34,7 +34,7 @@ class ArrivalViewController: UIViewController {
         
         createConstrinatsForYandexView()
        
-        yandexApi.getFlightDeparture { [weak self] flight in
+        yandexApi.getFlightArrival{ [weak self] flight in
             self?.flights = flight
             self?.tableView.reloadData()
         }
@@ -67,8 +67,9 @@ extension ArrivalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FlightTableViewCell.reuseId, for: indexPath) as? FlightTableViewCell else { return UITableViewCell() }
-        let flight = flights[indexPath.row].thread
-        cell.configure(flightNumber: flight.number, flightName: flight.title, modelAirplane: flight.vehicle, timeFlight: "")
+        let flight = flights[indexPath.row]
+        
+        cell.configure(flightNumber: flight.thread.number, flightName: flight.thread.title, modelAirplane: flight.thread.vehicle, timeFlight: flight.arrival)
         return cell
     }
     

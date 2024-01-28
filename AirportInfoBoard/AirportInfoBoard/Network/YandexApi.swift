@@ -25,7 +25,16 @@ final class YandexApi {
         }
     }
     
-    func request(query: ApiEvent, complition: @escaping (Data?) -> Void) {
+    private func currentTime() -> String {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let formattedDate = dateFormatter.string(from: currentDate)
+        return formattedDate
+    }
+    
+    
+    private func request(query: ApiEvent, complition: @escaping (Data?) -> Void) {
         let session = URLSession.shared
         var urlConstructor = URLComponents()
         urlConstructor.scheme = "https"
@@ -36,7 +45,7 @@ final class YandexApi {
             URLQueryItem(name: "station", value: "s9600213"),
             URLQueryItem(name: "transport_types", value: "plane"),
             URLQueryItem(name: "event", value: "\(query.event)"),
-            URLQueryItem(name: "date", value: "2024-01-28")
+            URLQueryItem(name: "date", value: "\(currentTime())")
         ]
         
         guard let url = urlConstructor.url else { return }
@@ -52,13 +61,24 @@ final class YandexApi {
         task.resume()
     }
     
+    func getFlightArrival(complition: @escaping ([Thread]) -> Void) {
+        request(query: .arrival) { data in
+            guard let data = data else { return }
+            do {
+                let schedule = try JSONDecoder().decode(Schedule.self, from: data)
+                complition(schedule.schedule)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     func getFlightDeparture(complition: @escaping ([Thread]) -> Void) {
         request(query: .departure) { data in
             guard let data = data else { return }
             do {
                 let schedule = try JSONDecoder().decode(Schedule.self, from: data)
                 complition(schedule.schedule)
-                
             } catch {
                 print(error)
             }
