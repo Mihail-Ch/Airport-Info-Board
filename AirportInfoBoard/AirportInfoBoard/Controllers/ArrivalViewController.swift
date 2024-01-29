@@ -20,7 +20,7 @@ class ArrivalViewController: UIViewController {
 
     lazy var yandexApi = YandexApi()
     
-    private var flights: [Thread] = []
+    private var flights: [ThreadProtocol] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -61,7 +61,7 @@ final class YandexApi {
         task.resume()
     }
     
-    func getFlightArrival(complition: @escaping ([Thread]) -> Void) {
+    func getFlightArrival(complition: @escaping ([ThreadProtocol]) -> Void) {
         request(query: .arrival) { data in
             guard let data = data else { return }
             do {
@@ -73,7 +73,7 @@ final class YandexApi {
         }
     }
     
-    func getFlightDeparture(complition: @escaping ([Thread]) -> Void) {
+    func getFlightDeparture(complition: @escaping ([ThreadProtocol]) -> Void) {
         request(query: .departure) { data in
             guard let data = data else { return }
             do {

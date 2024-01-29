@@ -10,7 +10,13 @@ struct Schedule: Codable {
     let schedule: [Thread]
 }
 
-struct Thread: Codable {
+protocol ThreadProtocol: Codable {
+    var thread: Flight {get}
+    var departure: String? {get}
+    var arrival: String? {get}
+}
+
+struct Thread: ThreadProtocol {
     let thread: Flight
     let departure: String?
     let arrival: String?

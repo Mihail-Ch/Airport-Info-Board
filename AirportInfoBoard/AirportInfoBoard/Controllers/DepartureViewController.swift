@@ -11,7 +11,7 @@ class DepartureViewController: UIViewController {
     
     lazy var yandexApi = YandexApi()
     
-    private var flights: [Thread] = []
+    private var flights: [ThreadProtocol] = []
     
     private let yandexView = YandexView()
     
